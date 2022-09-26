@@ -1,0 +1,658 @@
+
+
+;the unknown.prg ==0801==
+  100 rem adventure into the unknown
+  110 rem ethan dicks  3-18-82
+  120 print"{clr}{wht}{dish}{swlc}":poke53280,12:poke53281,12:gosub140:gosub3070:gosub300
+  130 poke53281,11:goto5290
+  140 print"{clr}{rght}{rght}{rght}{rght}{rght}{rght}{gry1}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}{CBM-@}"
+  150 print"{rght}{rght}{rght}{rght}{rght}{CBM-N}{rvon}ADVENTURE{$a0}INTO{$a0}THE{$a0}UNKNOWN{rvof}{CBM-G}"
+  155 print"{rght}{rght}{rght}{rght}{rght}{rght}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{CBM-T}{gry3}"
+  160 print"{down}   The object of this adventure is to "
+  170 print"get all the treasures (marked by a *)"
+  180 print"and return them to the proper place."
+  190 print"{down}   In this game, you must tell me"
+  200 print"(The computer) what you want to do."
+  210 print"Commands must have a verb and a noun or"
+  220 print"be one word commands."
+  230 print"{down}  e.g.    get inventory,help,go south."
+  240 print"{down}{down}   This adventure may take a long time,"
+  250 print"so if you want to play at a later date,"
+  260 print"enter 'save game', and when you want to"
+  270 print"play again, type 'y' when asked if you"
+  280 print"would like to play an old game."
+  290 return
+  300 print"{clr}Do you want to play an old game? ";:gosub6350
+  310 ifa$="n"thenprint"{clr}":return
+  320 ifa$<>"y"thengoto300
+  330 open1,8,0,"0:old game,s,r"
+  340 forx=1tolo:input#1,b%(x,0):next
+  350 forx=1to2:input#1,li(x),lt(x),lc(x):next
+  360 input#1,b%(5,2)
+  370 input#1,p%(17,4),p%(26,3),p%(19,1)
+  380 input#1,cp,pu
+  390 close1:return
+  400 ifnn>0then440
+  410 ifn$<>""then6060
+  420 ifg%=1thenprint"get";:j=23:goto6310
+  430 print"take";:j=23:goto6310
+  440 j=0:fornn=1tolo:ifab$(nn)<>n$then530
+  450 if(b%(nn,2)and1)then790
+  460 if((b%(nn,1)and2)=0)then2160
+  470 ifb%(nn,0)=cpthen550
+  480 forx=1to3:fory=0to3:l%(y)=lo%(x,y):ify=2andlo%(x,y)=-1thenl%(y)=cp
+  490 next:ifb%(l%(1),0)=l%(0)andcp=l%(2)andb%(nn,0)=l%(3)then550
+  500 next
+  510 ifb%(nn,0)=-1thenj=27:goto530
+  520 ifb%(nn,0)<>cpthenj=7:goto530
+  530 next:ifjthen6310
+  540 stop
+  550 f%=0:forx=1tolo:ifb%(x,0)=-1thenf%=f%+1
+  560 next:iff%>5thenj=20:goto6310
+  570 b%(nn,0)=-1:goto6340
+  700 ifnn>0then740
+  710 ifn$<>""then6060
+  720 ifg%=2thenprint"leave";:j=23:goto6310
+  730 print"drop";:j=23:goto6310
+  740 fornn=1tolo:ifab$(nn)=n$then760
+  750 next:j=8:goto6310
+  760 ifn$<>"wat"andb%(nn,0)<>-1then750
+  770 ifb%(nn,4)and1then840
+  780 b%(nn,0)=cp:goto6340
+  790 on(b%(nn,3)and15)goto580,800,820,850,880,920
+  800 ifcp=27thenb%(39,0)=27:b%(5,2)=b%(5,2)and254:b%(5,0)=-1:printms$(12):goto5290
+  810 j=1:goto6310
+  820 if(p%(cp,0)and2)=0thenp%(cp,0)=p%(cp,0)and254
+  830 li(2)=1:b%(36,0)=-1:goto6340
+  840 on(b%(nn,3)/16)and15goto2250,2270,2820,2840
+  850 ifb%(48,0)=cpthenb%(59,0)=0:b%(48,0)=-1:goto6340
+  860 ifb%(59,0)=15andcp=15andb%(48,0)=9thenb%(59,0)=0:b%(48,0)=-1:goto6340
+  870 j=1:goto6310
+  880 ifb%(77,0)=-1thenj=27:goto6310
+  890 ifb%(7,0)<>-1thenj=40:goto6310
+  900 ifcp<>37andcp<>13thenj=7:goto6310
+  910 b%(77,0)=-1:b%(7,0)=0:print"{down}ok,":printms$(41):goto5290
+  920 ifb%(91,0)=cpthenb%(91,0)=-1:goto6340
+  930 forx=1to3:ifb%(nn,0)=l%(x,3)then950
+  940 next
+  950 ifb%(91,0)=-1thenprint"{down}You have already gotten some.":goto5490
+  960 b%(91,0)=-1:goto6340
+  970 fornn=1tolo:if(b%(nn,1)and248)andab$(nn)=n$then1010
+  980 next
+  990 ifi>5thenj=5:goto6310
+ 1000 goto1090
+ 1010 j=(b%(nn,1)and248)/8:ifcp=22andnn=49thenj=8
+ 1020 e%=n%(j,1):f%=n%(j,2):g%=n%(j,6)
+ 1030 fori=1to6:ifp%(cp,i)>n%(j,4)andp%(cp,i)<n%(j,4)+100then1050
+ 1040 next:goto1070
+ 1050 ife%<0thene%=cp
+ 1060 if(cp=e%andb%(f%,0)=n%(j,3))or(cp=n%(j,5)andb%(g%,0)=n%(j,7))then1080
+ 1070 j=1:goto6310
+ 1080 cp=p%(cp,i)-n%(j,4):goto5290
+ 1090 ifp%(cp,i+1)<0thenj=15+(-23*(cp=30)):goto6310
+ 1100 ifp%(cp,i+1)<>0andp%(cp,i+1)=<nthencp=p%(cp,i+1):goto5290
+ 1110 ifcp<>7thennr=0:goto1130
+ 1120 r%=r%+1:ifr%=6thenprintms$(32)c$ms$(33):goto6090
+ 1130 j=5:goto6310
+ 1140 fornn=1tolo
+ 1150 if(b%(nn,0)=cporb%(nn,0)=-1)and(b%(nn,1)and1)andab$(nn)=n$then1170
+ 1160 next:goto2160
+ 1170 x=(b%(nn,2)/2)and15
+ 1180 onxgoto1280,1370,1200,1220,1510,1570,1590,1640,1680
+ 1190 goto2160
+ 1200 ifcp=2then1360
+ 1210 j=7:goto110{CTRL-Y}00
+ 1220 ifb%(9,0)=-1then1390
+ 1230 goto1240
+ 1240 j=1:goto6310
+ 1250 goto2160
+ 1260 b%(6,0)=cp:printms$(6):goto5290
+ 1270 j=4:goto6310
+ 1280 ifcp=3thenonb%(12,0)+1goto1300,,,1310
+ 1290 goto1320
+ 1300 j=13:goto6310
+ 1310 j=14:goto6310
+ 1320 ifcp=1thenonb%(11,0)+1goto1340,1350
+ 1330 j=4:goto6310
+ 1340 b%(13,0)=0:b%(12,0)=3:b%(2,0)=0:b%(11,0)=1:goto5290
+ 1350 j=14:goto6310
+ 1360 b%(4,0)=0:b%(19,0)=2:goto5290
+ 1370 ifb%(3,0)=-1thenb%(6,0)=cp:printms$(6):goto5290
+ 1380 j=1:goto6310
+ 1390 printms$(9):j=10:goto6310
+ 1400 ifb%(15,0)=-1andcp=12then1420
+ 1410 j=1:goto6310
+ 1420 b%(16,0)=0:b%(15,0)=0:b%(86,0)=12:b%(87,0)=13:goto6340
+ 1430 fornn=1tolo:ifb%(nn,0)=cpandab$(nn)=n$then1450
+ 1440 next:j=7:goto6310
+ 1450 x=((b%(nn,4)/256)and7):ifx=0thenj=1:goto6310
+ 1460 oncl(x,2)+1goto1490,1470
+ 1470 ifcp=cl(x,1)andnn=cl(x,0)andb%(nn,0)=cpthencp=p%(cl(x,1),5)-200:goto5290
+ 1480 j=1:goto6310
+ 1490 ifnn=cl(x,0)andcp=cl(x,1)thenj=34:goto6310
+ 1500 j=1:goto6310
+ 1510 ifcp>16orcp<21then1530
+ 1520 j=1:goto6310
+ 1530 ifcp=18thengoto1520
+ 1540 ifcp=19thenx=pu:goto1560
+ 1550 x=abs(cp=20)
+ 1560 fori=0to7:b%(i+22,0)=e%(i,pu):next:p%(19,1)=e%(8,pu):pu=e%(9,pu):goto6340
+ 1570 ifcp<>1thenj=1:goto6310
+ 1580 b%(42,0)=1:b%(41,0)=0:goto6340
+ 1590 ifb%(57,0)<>22thenj=30:goto6310
+ 1600 ifcp=23andb%(53,0)<>23thenj=13:goto6310
+ 1610 ifcp<>22thenj=7:goto6310
+ 1620 ifb%(46,0)=22thenprint"It's already open":goto5490
+ 1630 b%(57,0)=0:b%(46,0)=22:b%(53,0)=23:b%(58,0)=0:goto6340
+ 1640 ifcp=23andb%(51,0)<>0thenj=28:goto6310
+ 1650 ifb%(50,0)<>-1thenj=1:goto6310
+ 1660 ifb%(51,0)<>0thenj=7:goto6310
+ 1670 b%(50,0)=0:b%(51,0)=-1:goto6340
+ 1680 ifcp=28then1730
+ 1690 ifcp<>27thenj=1:goto6310
+ 1700 ifb%(45,0)<>-1thenprintms$(30):j=31:goto6310
+ 1710 ifb%(64,0)=27thenj=14:goto6310
+ 1720 b%(64,0)=27:b%(63,0)=0:b%(66,0)=0:b%(67,0)=28:goto6340
+ 1730 ifb%(67,0)<>28thenprintms$(30)" on the inside.":ifb%(45,0)=-1then5490
+ 1740 ifb%(45,0)<>-1thenj=31:goto6310
+ 1750 ifb%(67,0)=28thenj=14:goto6310
+ 1760 stop
+ 1770 fornn=1tolo
+ 1780 if((b%(nn,2)/32)and7)andab$(nn)=n$thengoto1800
+ 1790 next:goto5290
+ 1800 x=(b%(nn,2)/32)and7:if(b%(nn,4)and128)andcp=28thennn=71:goto1800
+ 1810 forj=0to5:l%(j)=lo%(x,j):next
+ 1820 iflo%(x,0)=-1thenl%(0)=cp
+ 1830 ifcp=l%(0)andb%(l%(1),0)=l%(2)then1850
+ 1840 j=1:goto6310
+ 1850 ifb%(18,0)=l%(3)andb%(20,0)=l%(3)thenb%(18,0)=0:b%(20,0)=0:b%(93,0)=l%(3)
+ 1860 cl=0:print"{down}You{$a0}see:":x=0:fory=1tolo
+ 1870 ifabs(b%(y,0))<>l%(3)then1920
+ 1880 cl=cl+len(b$(y)):ifcl>23thenprint:cl=len(b$(y))
+ 1900 print"a";:ifb%(i,4)and8thenprint"n";
+ 1910 print" "b$(y)". ";:x=x+1
+ 1920 next:ifx=0thenprint"nothing.";
+ 1930 print:ifb%(93,0)=l%(3)thenb%(18,0)=l%(3):b%(20,0)=l%(3):b%(93,0)=0
+ 1940 goto5490
+ 1950 m=19
+ 1960 iflt(1)<0thenli(1)=0:print"{down}The batteries are dead.":goto5490
+ 1970 if(nn=37ornn=38)andb%(8,0)=-1thenli(1)=2+notli(1):printms$(m)n$:goto2000
+ 1980 ifb%(8,0)<>-1thenj=1:goto6310
+ 1990 goto6060
+ 2000 if(nn=37andli(1)=0)or(nn=38andli(1)=1)thenli(1)=2+not(li(1)):goto5490
+ 2010 forq=1to1000:next:goto5290
+ 2020 if(nn<>6)and(nn<>39)and(nn<>93)then6060
+ 2030 ifnn=39then2060
+ 2040 ifb%(6,0)=-1thenprintms$(16):j=17:goto6310
+ 2050 goto2080
+ 2060 ifb%(39,0)=-1thenprintms$(21):j=22:goto6310
+ 2070 goto2080
+ 2080 j=7:goto6310
+ 2090 ifn$=ab$(26)then2110
+ 2100 j=4:goto6310
+ 2110 ifcp<>19thenj=7:goto6310
+ 2120 pu=(notpu)+2
+ 2130 fori=0to7:b%(i+22,0)=e%(i,pu):next:p%(19,1)=e%(8,pu)
+ 2140 b%(24,0)=0:b%(25,0)=19:b%(29,0)=0
+ 2150 printms$(18):goto5290
+ 2160 f%=0:fornn=1tolo:ifab$(nn)<>n$then2180
+ 2170 ifb%(nn,0)=cpand((b%(nn,1)and2)=0)thenf%=f%+1:h%=nn
+ 2180 next
+ 2190 iff%then2230
+ 2200 j=49:goto6310
+ 2230 ifc%=6thenc%=0:j=2:goto6310
+ 2240 j=42+c%:c%=c%+1:print:goto6310
+ 2250 if(p%(cp,0)and2)=0thenp%(cp,0)=p%(cp,0)or1
+ 2260 b%(36,0)=cp:li(2)=0:goto6340
+ 2270 ifb%(48,0)<>-1thenj=8:goto6310
+ 2280 b%(48,0)=cp:ifcp=9thenb%(59,0)=15
+ 2290 ifcp=15thenb%(48,0)=9:b%(59,0)=15
+ 2300 goto6340
+ 2310 fornn=1tolo:ifb%(nn,0)=-1andab$(nn)=n$then2340
+ 2320 next:j=1:goto6310
+ 2330 ifb%(nn,0)<>-1thenj=1:goto6310
+ 2340 print"{down}In or on what? ";:gosub6390
+ 2350 p$=left$(a$,2):q$=mid$(a$,4,3)
+ 2360 ifp$<>"in"andp$<>"on"thenprintpu$;:goto2310
+ 2370 fori=19to51:ifq$=ab$(i)theny=(b%(i,4)/2)and3:goto2390
+ 2380 next:j=24:goto6310
+ 2390 forx=0to5:l%(x)=lo%(y,x):next
+ 2400 ifl%(0)=-1thenl%(0)=cp
+ 2410 j=0:fori=1tolo:ifb%(i,0)=l%(3)thenj=j+1
+ 2420 next
+ 2430 ifcp<>l%(0)orb%(l%(1),0)<>l%(2)thenj=1:goto6310
+ 2440 ifj>l%(5)thenprint"The "right$(b$(l%(2)),l%(6))" is full.":goto5490
+ 2450 ifb%(nn,4)and(2^(y+3))thenj=29:goto6310
+ 2460 b%(nn,0)=l%(3):goto6340
+ 2470 fori=1to6:ifp%(cp,i)<0then2490
+ 2480 next
+ 2482 j=33:ifnn<>43thenj=2
+ 2485 ifcp=17thenj=33
+ 2487 goto6310
+ 2490 ifnn<>43thenprintms$(25):goto6090
+ 2500 ifb%(43,0)<>-1thenj=1:goto6310
+ 2510 b%(43,0)=0:b%(21,0)=26:p%(cp,4)=22:printms$(26):goto5290
+ 2520 ifnn<>21then2590
+ 2530 fori=1to6:ifp%(cp,i)<0then2550
+ 2540 next:goto2482
+ 2550 print"{down}feed him what? ";:gosub6390
+ 2560 ifleft$(a$,3)<>"ste"thenprintms$(25):goto6090
+ 2570 ifb%(43,0)<>-1thenj=8:goto6310
+ 2580 b%(43,0)=0:b%(21,0)=26:p%(cp,4)=22:printms$(26):goto5290
+ 2590 print"You can't feed a";
+ 2600 w$=right$(a$,(len(a$)-(v-1)))
+ 2610 forj=1to5:ifleft$(w$,1)=mid$("aeiou",j,1)thenprint"n";goto2630
+ 2620 next
+ 2630 print" ";w$:goto5490
+ 2640 ifcp=28orcp=27then1680
+ 2650 ifb%(57,0)=22thenprint"{down}The door is already unlocked":goto5490
+ 2660 ifcp=23thenj=28:goto6310
+ 2670 ifb%(45,0)<>-1orcp<>22thenj=1:goto6310
+ 2680 b%(57,0)=22:b%(58,0)=23:b%(54,0)=0:b%(47,0)=0:goto6340
+ 2690 ifnn=21thenj=15:goto6310
+ 2700 ifnn=73thenj=38:goto6310
+ 2710 goto2160
+ 2720 ifnn=73then2750
+ 2730 ifnn=21andg%=40then2490
+ 2740 goto2160
+ 2750 ifcp<>30thenj=7:goto6310
+ 2760 ifb%(73,0)=0thenj=36:goto6310
+ 2770 ifb%(1,0)=-1then2810
+ 2780 ifg%<39thenprintms$(35):goto2800
+ 2790 print
+ 2800 printms$(37):goto6090
+ 2810 b%(73,0)=0:b%(74,0)=30:j=36:p%(cp,1)=39:goto6310
+ 2820 ifb%(77,0)<>-1thenj=8:goto6310
+ 2830 b%(7,0)=-1:b%(77,0)=0:print"{down}ok,":j=39:goto6310
+ 2840 ifcp=32orcp=34orcp=35orcp=36thenb%(91,0)=0:goto6340
+ 2850 b%(91,0)=cp:goto6340
+ 2860 ifnn<>76andnn<>84thenprint"{down}You can't drink that.":goto5490
+ 2870 ifb%(77,0)<>-1thenj=8:goto6310
+ 2880 p%=0:b%(77,0)=0:b%(7,0)=-1:print"{down}Boy, I'll bet that felt good.":goto5490
+ 2890 ifnn<>15thenprint"You can only cut the rope.":goto5490
+ 2900 ifb%(18,0)<>0thenprint"{down}You already did.":goto5490
+ 2910 ifb%(15,0)<>-1thenj=8:goto6310
+ 2920 b%(15,0)=0:b%(18,0)=-1:b%(20,0)=-1:goto6340
+ 2930 ifnn<>43thenprint"{down}You can't eat that.":goto5490
+ 2940 ifb%(43,0)=-1thenprint"{down}It's raw.":goto5490
+ 2950 j=8:goto6310
+ 2960 ifcp=33thenprint"{down}ok,":forx=1to2000:next:cp=31:goto5290
+ 2970 ifcp<>12andcp<>15thenj=11:goto6310
+ 2980 print"{down}You fell and broke your neck,"c$"You are dead.":goto6090
+ 2990 gosub5830
+ 2995 ifcp<>32andcp<>34andcp<>35andcp<>36thenp%=0:goto3030
+ 3000 p%=p%+1:ifp%=5thenprint"You feel thirsty!":goto3030
+ 3010 ifp%=10thenprint"You need a drink of water.":goto3030
+ 3020 ifcp=17thenprint"You died of thirst.":goto6090
+ 3030 ong%goto400,700,1140,1400,1430,2090,1950,700,400,2020,970
+ 3040 ong%-11goto1770,6070,6090,6130,6220,6250,2310,2310,2470,2520
+ 3050 ong%-21goto2640,5970,2690,2720,2860,2890,2930,2960,580,400,700,6300,6300,6300
+ 3060 ong%-35goto6300,6300,2690,2690,2720
+ 3070 forx=0to6:readr$(x):next
+ 3080 c$=chr$(13):lt(1)=80:lt(2)=125:cr=204
+ 3085 forx=1to39:bl$=bl$+" ":next
+ 3090 fori=0to5:readd$(i):next
+ 3100 readlo,cp,n,he,cv,ms,em
+ 3110 dimb%(lo,5),b$(lo),ab$(lo),p$(n),i%(40)
+ 3120 dimms$(ms),he$(he),p%(n,7),vv$(cv),n%(em,8),lo%(5,5),e%(9,1):v$="aeiou"
+ 3130 fori=1tolo:readb$(i),b%(i,0),b%(i,1),b%(i,2),b%(i,3),b%(i,4),ab$(i):next
+ 3140 fori=1ton:readp$(i):forj=0to7:readp%(i,j):nextj,i
+ 3150 fori=1tohe:readhe$(i):next
+ 3160 fori=1tocv:readvv$(i):next
+ 3170 fori=1toem:forj=1to7:readn%(i,j):nextj,i
+ 3180 fori=1to5:forj=0to5:readlo%(i,j):nextj,i
+ 3190 fori=1to5:forj=0to2:readcl(i,j):nextj,i
+ 3200 fori=0to1:forx=0to9:reade%(x,i):nextx,i
+ 3210 fori=1toms:readms$(i):next
+ 3215 fori=0to40:readi%(i):next
+ 3220 pu$="{up}{up}":fori=1to80:pu$=pu$+" ":next:pu$=pu$+c$+"{up}{up}{up}"
+ 3230 print"{down}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{wht}HIT ANY KEY TO{$a0}PLAY{gry3}"
+ 3240 geta$:ifa$=""then3240
+ 3250 return
+ 3260 data"","IN A ","IN{$a0}THE{$a0}","AT{$a0}THE ","IN{$a0}AN ","ON{$a0}THE ","ON A "
+ 3270 datanorth,east,south,west,up,down
+ 3280 data93,27,43,43,40,49,15
+ 3290 dataknife,1,2,0,0,0,kni
+ 3300 dataclosed door,1,1,2,0,0,doo
+ 3310 dataenvelope,2,3,4,8,8,env
+ 3320 datacupboard,2,1,38,0,2,cup
+ 3330 datarug,27,2,1,2,16,rug
+ 3340 dataletter,0,2,0,0,0,let
+ 3350 dataempty glass,8,2,0,0,8,gla
+ 3360 dataflashlight,8,2,0,0,0,fla
+ 3370 data"ancient scroll",10,7,8,0,8,scr
+ 3380 datasecret passage going east,0,16,0,0,0,pas
+ 3390 dataopen door with a closet beyond,0,1,2,0,8,doo
+ 3400 dataopen door with a kitchen beyond,0,1,2,0,8,doo
+ 3410 dataclosed door,3,1,2,0,0,doo
+ 3420 datasecret passage going west,0,16,0,0,0,pas
+ 3430 datanine foot rope,4,34,0,0,16,rop
+ 3440 datairon peg stuck in the floor,12,0,0,0,8,peg
+ 3450 dataeight foot deep pit,12,32,0,0,8,pit
+ 3460 datafive foot rope,0,2,0,0,0,rop
+ 3470 dataopen cupboard,0,0,32,0,10,cup
+ 3480 datafour foot rope,0,2,0,0,0,rop
+ 3490 datanasty looking lion,17,0,0,0,0,lio
+ 3500 dataclosed elevator,0,41,10,0,0,ele
+ 3510 dataopen elevator,17,40,0,0,8,ele
+ 3520 data"{left}{left}elevator doors with a tunnel beyond",19,40,0,0,0,ele
+ 3530 datapair of closed elevator doors,0,1,10,0,0,ele
+ 3540 databig red pushbutton,19,0,0,0,0,but
+ 3550 dataclosed elevator,20,1,10,0,0,ele
+ 3560 dataopen elevator,0,40,0,0,8,ele
+ 3570 data"{left}{left}elevator doors with a meadow beyond",0,40,0,0,0,ele
+ 3580 dataten foot high ledge,9,0,0,0,1024,led
+ 3590 data,,2,1,1,,###
+ 3600 data,,8,,,,clo
+ 3610 data,,48,,,,tun
+ 3620 data,,24,,,,kit
+ 3630 data,,56,,,,mea
+ 3640 datalit candle,16,1,1,19,17,can
+ 3650 data,,,,,,on
+ 3660 data,,,,,,off
+ 3670 datanote,0,2,0,0,0,not
+ 3680 data,,,,,,her
+ 3690 datarefrigerator,1,1,76,0,4,ref
+ 3700 dataopen refrigerator,0,0,0,0,8,ref
+ 3710 data"T-bone steak",21,2,0,0,0,ste
+ 3720 datapile of mouldy old bones,22,0,0,0,0,bon
+ 3730 datakey,24,2,0,0,0,key
+ 3740 datadoor with a well room beyond,0,0,0,0,0,doo
+ 3750 datalocked door,22,1,14,0,0,doo
+ 3760 dataeleven foot ladder,23,2,1,36,2681,lad
+ 3770 datavery deep well,23,120,0,0,0,wel
+ 3780 dataleather pouch,23,3,16,0,6,pou
+ 3790 dataopen leather pouch,0,3,96,14,8,pou
+ 3800 data"*gold coin*",42,6,0,0,0,coi
+ 3810 datadoor with a lions den beyond,0,0,0,0,0,doo
+ 3820 datalocked door,23,1,14,0,0,doo
+ 3830 data,,72,,,,den
+ 3840 data,,64,,,,wel
+ 3850 dataunlocked door,0,1,14,0,8,doo
+ 3860 dataunlocked door,0,1,14,0,8,doo
+ 3870 dataladder sticking up above the ledge,0,80,0,0,0,lad
+ 3880 data,,,,,,gam
+ 3890 datacouch,27,0,0,0,0,cou
+ 3900 datapicture window,27,0,128,0,128,win
+ 3910 datafront door with a dead-bolt lock,27,1,18,0,0,doo
+ 3920 dataopen front door with a porch beyond,0,1,18,0,8,doo
+ 3930 data,,88,,,,por
+ 3940 datafront door,28,1,18,0,0,doo
+ 3950 dataopen door with a living room beyond,0,1,18,0,8,doo
+ 3960 data,,96,,,,liv
+ 3970 datagrassy front lawn,-29,0,0,0,0,law
+ 3980 datatall oak tree,29,0,0,0,768,tre
+ 3990 datapicture window,28,0,160,0,0,win
+ 4000 dataold wooden shed,25,104,0,0,8,she
+ 4010 datagigantic spider,30,0,0,0,0,spi
+ 4020 datadead gigantic spider,0,0,0,0,0,spi
+ 4030 databurned-out candle,0,2,0,0,8,can
+ 4040 datapuddle of water,13,2,1,53,1,wat
+ 4050 dataglass full of water,0,2,0,0,0,gla
+ 4060 datashort tree,31,0,0,0,1280,tre
+ 4070 datalot of sand,32,0,1,70,1,san
+ 4080 datalot of sand,34,0,1,70,1,san
+ 4090 datalot of sand,35,0,1,70,1,san
+ 4100 datalot of sand,36,0,1,70,1,san
+ 4110 datapalm tree,37,0,0,0,0,pal
+ 4120 datapool of water,37,2,1,53,1,wat
+ 4130 data"*large diamond*",13,6,0,0,0,dia
+ 4140 datairon peg with a rope tied on,0,32,0,0,8,rop
+ 4150 datalong rope dangling from the roof,0,32,0,0,256,rop
+ 4160 datasacrifical table,16,0,0,0,0,tab
+ 4170 data"*gold statuette*",16,6,0,0,0,sta
+ 4180 datahole in the ground,37,112,0,0,0,hol
+ 4190 datasmall pile of sand,0,2,1,70,1,san
+ 4200 data"*silver chain*",38,6,0,0,0,cha
+ 4210 data"{left}{left}two pieces of rope",0,2,0,0,0,rop
+ 4220 data"KITCHEN",7,0,103,2,27,0,0,1
+ 4230 data"VERY{$a0}DUSTY{$a0}PANTRY",7,1,0,0,0,0,0,1
+ 4240 data"DARK{$a0}MUSTY{$a0}CLOSET",7,0,0,0,101,0,0,132
+ 4250 data"LARGE{$a0}LIMESTONE{$a0}CAVERN",4,5,0,17,0,0,0,131
+ 4260 data"SMALL{$a0}PASSAGE",4,6,0,4,0,0,0,132
+ 4270 data"LARGE{$a0}HIGH{$a0}CAVE",4,0,9,5,30,0,0,131
+ 4280 data"",,,,,,,,
+ 4290 data"",,,,,,,,
+ 4300 data"CAVE{$a0}WITH{$a0}A{$a0}VERY HIGH{$a0}CEILING",4,0,10,0,6,215,0,132
+ 4310 data"DEAD-END CAVE",4,0,311,9,0,0,0,4
+ 4320 data"SECRET{$a0}PASSAGE",4,0,12,0,10,0,0,4
+ 4330 data"SMALL{$a0}ROOM",4,0,0,0,311,0,213,4
+ 4340 data"SMALL WET ROOM",4,0,0,14,0,212,0,4
+ 4350 data"SMALL{$a0}TUNNEL",4,13,0,16,0,0,0,4
+ 4360 data"TOP{$a0}OF{$a0}A{$a0}TEN{$a0}FOOT CLIFF",12,39,0,0,0,0,209,4
+ 4370 data"LARGE{$a0}MARBLE{$a0}TEMPLE",5,14,0,30,0,0,0,-1
+ 4380 data"SLIMY{$a0}TUNNEL",4,4,18,519,-22,0,0,132
+ 4390 data"DIRT{$a0}TUNNEL",4,0,40,0,17,0,0,132
+ 4400 data"OLD{$a0}ELEVATOR",19,617,0,0,0,0,0,-1
+ 4410 data"SUNNY{$a0}MEADOW",7,20,25,519,20,0,0,147
+ 4420 data"",,,,,,,,
+ 4430 data"LION'S{$a0}DEN",4,423,17,0,26,0,0,4
+ 4440 data"OLD{$a0}ABANDON{$a0}WELL{$a0}ROOM",19,0,25,422,0,0,642,-1
+ 4450 data"",,,,,,,,
+ 4460 data"GRASSY{$a0}FIELD",7,31,29,20,723,0,0,156
+ 4470 data"SMALL CAVE",4,0,22,-1,0,0,0,4
+ 4480 data"LIVING{$a0}ROOM",11,128,1,0,0,0,0,1
+ 4490 data"FRONT{$a0}PORCH",23,0,0,127,29,0,0,131
+ 4500 data"GRASSY{$a0}FRONT{$a0}LAWN",27,0,28,0,25,0,0,-1
+ 4510 data"GRUBBY{$a0}LAIR",4,-39,0,0,6,0,0,128
+ 4520 data"DARK FOREST",7,32,31,25,31,233,0,143
+ 4530 data"DESERT",7,36,34,31,35,0,0,0
+ 4540 data"IN{$a0}THE{$a0}TOP{$a0}OF{$a0}A{$a0}TREE",3,0,0,0,0,0,31,-1
+ 4550 data"DESERT",7,34,32,34,35,0,0,0
+ 4560 data"DESERT",7,32,34,35,37,0,0,0
+ 4570 data"DESERT",7,36,35,34,32,0,0,0
+ 4580 data"OASIS",19,32,34,35,36,0,838,-1
+ 4590 data"HOLE{$a0}IN{$a0}THE{$a0}GROUND",4,0,0,40,0,37,0,34
+ 4600 data"GIGANTIC{$a0}CAVERN",4,0,38,15,0,0,0,37
+ 4610 data"WIDE PASSAGE",4,38,0,41,18,0,0,132.
+ 4620 data"RADIANT CAVERN",4,40,0,43,6,0,0,132
+ 4630 data"BOTTOM OF{$a0}A{$a0}DRY WELL",12,0,0,0,40,0,0,0
+ 4640 data"TIGHT TUNNEL",4,41,0,42,0,0,0,0
+ 4650 datasay 'score',reading is good for you,you may need magic words
+ 4660 datatry 'flashlight on',,,,,climb up the ladder to success
+ 4670 datasilence is not always golden,,"you should know what KNOT to do"
+ 4680 data,,,,that lion looks very hungry,,try open elevator,,,,,,,,
+ 4690 datalook in the window,
+ 4700 datatry stabbing,,try drinking some water,,try drinking some water
+ 4710 datatry drinking some water,try drinking some water,fill your glass
+ 4720 data,,,,,
+ 4730 dataget,lea,ope,tie,cli,pus,fla,dro,tak,rea,"go ",loo,hel,qui,not,scr,sco
+ 4740 dataput,pla,giv,fee,unl,sav,kil,sta,dri,cut,eat,jum,go,gra,thr,shi,pis,fuc
+ 4750 datadam,ass,hit,kic,bit
+ 4760 data1,11,1,100,0,0,-5
+ 4770 data-1,10,10,300,0,0,-5
+ 4780 data3,12,3,100,0,0,-5
+ 4790 data12,86,12,200,0,0,-5
+ 4800 data17,23,17,500,20,28,20
+ 4810 data19,24,19,600,0,0,-5
+ 4820 data19,29,19,600,0,0,-5
+ 4830 data22,46,22,400,0,0,-5
+ 4840 data23,53,23,400,0,0,-5
+ 4850 data15,59,15,200,0,0,-5
+ 4860 data27,64,27,100,0,0,-5
+ 4870 data28,67,28,100,0,0,-5
+ 4880 data25,72,25,700,0,0,-5
+ 4890 data37,90,37,800,0,0,-5
+ 4900 data23,49,23,600,0,0,-5
+ 4910 data2,19,2,8,6,8
+ 4920 data1,42,1,21,7,12
+ 4930 data-1,51,-1,24,4,5
+ 4940 data27,44,22,29,0,0
+ 4950 data28,44,22,27,0,0
+ 4960 data87,13,1
+ 4970 data48,9,1
+ 4980 data70,29,0
+ 4990 data30,9,0
+ 5000 data78,31,1
+ 5010 data0,17,19,0,19,20,0,0,617,0
+ 5020 data17,0,0,0,19,0,20,19,620,1
+ 5030 data"{down}You{$a0}can't do that.....yet","{down}You can't do that"
+ 5040 data"{down}You have with you:","{down}You aren't making sense"
+ 5050 data"{down}You can't go that way","{down}Something fell out"
+ 5060 data"{down}You don't see it","{down}It's not in your hands"
+ 5070 data"{down}The scroll says","{down}{rght}{rght}{rght}the magic word is scroll","{down}Nothing happens"
+ 5080 data"{down}You hear a strange sound,","{down}The handle is on the other side"
+ 5090 data"{down}The door is already open","{down}The lion won't let you"
+ 5100 data"{down}The letter says","{down}{rght}{rght}{rght}The magic words are not here"
+ 5110 data"{down}The elevator is making a funny noise","{down}The flashlight is "
+ 5120 data"{down}You can't, your hands are full","{down}The note says:"
+ 5130 data"{down}{rght}{rght}{rght}Bring the treasure to the kitchen"," what?"
+ 5140 data"{down}You can't put it there","{down}The lion ate you instead"
+ 5150 data"{down}The lion ate the steak and padded away","{down}You've already got it"
+ 5160 data"{down}The lock is on the other side","{down}It won't fit","{down}The door is locked
+ 5170 data"You don't have the key...","{down}You can't go anywhere"
+ 5175 data"{up}You already did."
+ 5180 data"{down}It's too tall","{down}You don't have the knife","{down}The spider is dead"
+ 5190 data"The spider killed you","{down}The spider won't let you"
+ 5200 data"The water soaked into the ground","{down}You don't have a container"
+ 5210 data"You can't do that"
+ 5220 data"A valiant attempt"
+ 5230 data"An interesting idea","You must be joking"
+ 5240 data"Not bloody likely","Do you think You are {wht}Superman{gry3}?","I said NO!"
+ 5250 data"{down}I don't like to play with people who usebad language"
+ 5255 data"{down}You can't do that here"
+ 5260 data1,1,1,1,1,1,0,0,1,1,1,0,0,0,0,1,0,0,1,1,1
+ 5270 data1,1,0,0,0,0,1,1,1,0,1,1,0,0,0,0,0,0,0,0
+ 5290 print"{home}{gry2}";:poke1063,32
+ 5300 forx=1to12:printbl$:next:print"{home}";
+ 5305 goto5730
+ 5310 print"{rvon}"bl$:poke1063,160:poke55335,12
+ 5315 print"{up}{rvon}YOU'RE ";r$(((p%(cp,0)/4)and15));p$(cp)"{lgrn}"
+ 5320 ifb%(18,0)=cpandb%(20,0)=cpthenb%(18,0)=0:b%(20,0)=0:b%(93,0)=cp
+ 5330 e%=1:ln=0:cl=0:fori=1tolo:ifb%(i,0)<>cpthen5390
+ 5340 ife%=1thenprint"{down}YOU SEE AROUND{$a0}YOU:":e%=0
+ 5350 cl=cl+len(b$(i))
+ 5360 ifcl>24andpos(0)thenprint:cl=len(b$(i)):ln=ln+1:ifln>4thengosub6610
+ 5370 print"a";:ifb%(i,4)and8thenprint"n";
+ 5380 print" "b$(i)". ";
+ 5390 nexti
+ 5400 print
+ 5410 ifb%(93,0)=cpthenb%(18,0)=cp:b%(20,0)=cp:b%(93,0)=0
+ 5420 f%=0:fori=0to5
+ 5430 ifp%(cp,i+1)>100orp%(cp,i+1)=0then5480
+ 5440 iff%=0thengoto5460
+ 5450 goto5470
+ 5460 print"{down}{yel}VISIBLE{$a0}EXITS:":f%=1
+ 5470 printd$(i)" ";
+ 5480 next:print"{gry3}"
+ 5490 ifi%(g%)thengosub6520
+ 5500 g%=0:j=0:nn=0
+ 5510 cd=17:gosub6490:print"{down}What now? ";:gosub6390
+ 5520 forx=1to4:printbl$:next
+ 5530 print"{up}{up}{up}{up}{up}{up}"
+ 5540 fori=1tocv:ifleft$(a$,3)=vv$(i)theng%=i:goto5560
+ 5550 next:print"{down}You can't ";a$:goto5500
+ 5560 fori=1tolen(a$)
+ 5570 ifmid$(a$,i,1)=" "thenj=i+1:goto5590
+ 5580 next
+ 5590 ifj>0thenn$=mid$(a$,j,3):goto5610
+ 5600 n$="":goto5720
+ 5610 ifleft$(n$,1)=" "thenj=j+1:n$=mid$(a$,j,3):goto5610
+ 5620 fori=0to5:ifn$=left$(d$(i),3)then5720
+ 5630 next
+ 5640 fornn=1tolo:ifn$=ab$(nn)then5720
+ 5650 next
+ 5660 ifg%>32andg%<38thengoto6300
+ 5670 w$=right$(a$,(len(a$)-(j-1))):ifw$=""thenprint"{down}What?":goto5500
+ 5680 print"{down}What is a";
+ 5690 forj=1to5:ifleft$(w$,1)=mid$(v$,j,1)thenprint"n";:goto5710
+ 5700 next
+ 5710 print" ";w$;"?":goto5490
+ 5720 goto2990
+ 5730 if(li(1)=1andb%(8,0)=-1)then5310
+ 5740 if(li(2)=1and(b%(36,0)=-1orb%(36,0)=cp))then5310
+ 5750 ifp%(cp,0)and1then5310
+ 5760 print"{down}{blk}It's too dark to see.{gry3}"
+ 5770 ifleft$(a$,2)<>"go"thend%=d%-1
+ 5780 d%=d%+1:ifd%=2thenprint"{down}{blk}It's dangerous to move in the dark!{gry3}"
+ 5790 ifd%=3thenprint"{down}{blk}You really shouldn't move in the dark.{gry3}"
+ 5800 ifd%=4thenprint"{up}You{$a0}fell down and broke your neck.":print"{down}You died!"
+ 5810 ifd%=4thend%=0:goto6090
+ 5820 goto5490
+ 5830 ifli(1)=1andb%(8,0)=-1thenlt(1)=lt(1)-1
+ 5840 iflc(1)=0andlt(1)=0thenprint"the batteries ran out.":lc(1)=1:li(1)=0
+ 5850 ifb%(8,0)=-1andlt(1)<17andli(1)=1thenprint"the flashlight is getting dim.
+ 5860 lt(2)=lt(2)-1
+ 5870 ifb%(36,0)=-1orb%(36,0)=cpthen5890
+ 5880 return
+ 5890 iflt(2)>0then5920
+ 5900 li(2)=0
+ 5910 if(p%(cp,0)and2)=0thenp%(cp,0)=p%(cp,0)and254:lc(2)=1
+ 5920 iflc(2)=0andli(2)=0andlt(2)=0thenprint"the candle ran out.":goto5940
+ 5930 return
+ 5940 ifp%(cp,0)and2then5960
+ 5950 p%(cp,0)=p%(cp,0)and254
+ 5960 b%(75,0)=b%(36,0):b%(36,0)=0:return
+ 5970 ifnn<>60thenms=2:goto6310
+ 5980 print"{down}{down}SAVING{$a0}GAME"
+ 5990 open1,8,1,"0:old game,s,w"
+ 6000 forx=1tolo:print#1,b%(x,0):next
+ 6010 forx=1to2:print#1,li(x)","lt(x)","lc(x):next
+ 6020 print#1,b%(5,2)
+ 6030 print#1,p%(17,4)","p%(26,3)","p%(19,1)
+ 6040 print#1,cp","pu
+ 6050 close1:goto5490
+ 6060 print"{down}What are you trying to say?":goto5490
+ 6070 print"{down}";:ifhe$(cp)=""thenprint"{up}";:j=11:goto6310
+ 6080 print"{down}   A VOICE{$a0}SAYS:":print"{down}"he$(cp):goto5490
+ 6090 print"{down}Another game?  {left}";:gosub6350
+ 6100 ifa$="n"thenprint"{down}GOODBYE":close2:end
+ 6110 ifa$="y"thenrun
+ 6120 print"{up}{up}{up}":goto6090
+ 6130 ifb%(6,0)=-1then6150
+ 6140 j=11:goto6310
+ 6150 on(sgn(p%(cp,7)))+2goto6160,6180,6190
+ 6160 cp=int(rnd(ti)*n)+1:ifp%(cp,7)and128=0then6160
+ 6170 goto6200
+ 6180 j=11:goto6310
+ 6190 cp=(p%(cp,7)and127)
+ 6200 d%=0:print"{clr}*PING*"
+ 6210 forj=1to2000:next:goto5730
+ 6220 ifa$="scroll"andb%(9,0)=-1andcp=10then6240
+ 6230 j=11:goto6310
+ 6240 b%(14,0)=12:b%(10,0)=10:j=12:goto6310
+ 6250 ifcp<>1thenj=1:goto6310
+ 6255 print"{down}Your score is...";
+ 6260 g%=0:forj=9tolo:ifb%(j,0)=1and(b%(j,1)and4)=4andcp=1theng%=g%+1
+ 6270 next:print(g%*20);"%"
+ 6280 ifg%=5thenprint"You won!":print"congratulations.":goto6090
+ 6290 print"You must have missed some treasure.":goto5490
+ 6300 printms$(48):a$="n":goto6100
+ 6310 printms$(j);:a$=right$(ms$(j),1)
+ 6320 ifa$="?"ora$=","ora$=":"ora$="!"thenprint:goto5490
+ 6330 print".":goto5490
+ 6340 print"{down}ok,":goto5290
+ 6350 pokecr,0
+ 6360 geta$:ifa$=""then6350
+ 6370 a=asc(a$):ifa=13or(a>16anda<21)then6360
+ 6380 pokecr,1:printa$" ":return
+ 6390 a$="":pokecr,0
+ 6400 getz2$:ifz2$=""then6400
+ 6410 z2=asc(z2$)and127:ifz2=13orz2=20orz2=32or(z2>64andz2<91)then6430
+ 6420 goto6400
+ 6430 ifz2<>20then6460
+ 6440 iflen(a$)>0thenprintz2$;:iflen(a$)>1thena$=left$(a$,len(a$)-1):goto6400
+ 6450 goto6390
+ 6460 ifz2<>13thenz2$=chr$(z2):printz2$;:a$=a$+z2$:iflen(a$)<25then6400
+ 6470 iflen(a$)=0then6390
+ 6480 pokecr,1:print" ":return
+ 6490 print"{home}";:ifcdthenforx=1tocd:print:next
+ 6500 print"{down}"bl$:print"{up}{up}{up}"
+ 6510 return
+ 6520 print"{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}";
+ 6530 forx=1to5:printbl$:next:print"{up}{up}{up}{up}{up}{up}
+ 6540 print"{wht}YOU HAVE:"
+ 6545 ifb%(18,0)=-1andb%(20,0)=-1thenb%(18,0)=0:b%(20,0)=0:b%(93,0)=-1
+ 6550 f%=1:cl=0:fori=1tolo:ifb%(i,0)=-1then6580
+ 6560 next:iff%thenprint"nothing."
+ 6570 goto6599
+ 6580 cl=cl+len(b$(i)):ifcl>24thenprint:cl=len(b$(i))
+ 6585 print"a";:ifb%(i,4)and8thenprint"n";
+ 6590 print" "b$(i)". ";:f%=0
+ 6595 next
+ 6599 ifb%(93,0)=-1thenb%(18,0)=-1:b%(20,0)=-1:b%(93,0)=0
+ 6600 print"{gry3}";:return
+ 6610 print"{down}     Hit any key to continue."
+ 6620 getz2$:ifz2$=""then6620
+ 6640 print"{up}{up}{up}{up}{up}{up}{up}";:forx=1to7:printbl$:next:print"{up}{up}{up}{up}{up}{up}{up}";:ln=0:return
+
